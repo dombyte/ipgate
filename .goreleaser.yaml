@@ -193,10 +193,10 @@ changelog:
   use: github
   format: |
     {{ .Message -}}
-        {{- if .Authors }} by @{{ .Authors | englishJoin }}{{- end -}}
+        {{- if .Logins }} by @{{ .Logins | englishJoin }}{{- end -}}
         {{- if .SHA }}
           {{- $sha := split .SHA "" -}}
-          {{- if .Authors }} in {{ else }}in{{ end }}[#{{ index $sha 0 }}{{ index $sha 1 }}{{ index $sha 2 }}{{ index $sha 3 }}{{ index $sha 4 }}{{ index $sha 5 }}{{ index $sha 6 }}]({{ .GitURL }}/commit/{{ .SHA }})
+          {{- if .Logins }} in {{ else }}in{{ end }}[#{{ index $sha 0 }}{{ index $sha 1 }}{{ index $sha 2 }}{{ index $sha 3 }}{{ index $sha 4 }}{{ index $sha 5 }}{{ index $sha 6 }}]({{ .GitURL }}/commit/{{ .SHA }})
         {{- end }}
   # groups:
   #   - title: "Features"
