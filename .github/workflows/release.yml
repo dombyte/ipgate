@@ -3,6 +3,7 @@ name: IPGate Release
 on:
   push:
     # run only against tags
+    branches: [main]
     tags:
       - "*"
 
