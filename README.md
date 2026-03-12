@@ -1,3 +1,6 @@
+[![made-with-Go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](https://go.dev/)
+[![Go Report Card](https://goreportcard.com/badge/github.com/dombyte/ipgate)](https://goreportcard.com/report/github.com/dombyte/ipgate)
+[![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/dombyte/ipgate.svg)](https://github.com/dombyte/ipgate)
 # IPBlocker
 
 A high-performance IP blocking system in Go with caching and flexible configuration.
