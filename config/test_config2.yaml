@@ -1,0 +1,40 @@
+port: "8080"
+error_page: "./config/templates/error.html"
+error_format: "html"
+status_allowed: 200
+status_denied: 403
+debug_endpoint: false
+watch_files_enabled: true
+
+headers:
+  client_ip_header: "X-Forwarded-For"
+  host_header: "X-Forwarded-Host"
+  uri_header: "X-Forwarded-Uri"
+  method_header: "X-Forwarded-Method"
+  proto_header: "X-Forwarded-Proto"
+
+cache:
+  enabled: true
+  ttl: 3600
+  max_entries: 100000
+  prune_interval: 60
+  shard_count: 512
+  prune_on_get: false
+  write_buffer_size: 10000
+  auto_clear_on_change: false
+
+blocklist_max_size: 100000000
+
+whitelist_files:
+  - path: "./config/whitelists/whitelist.txt"
+
+# whitelist_remotes:
+#   - url: "https://ipv64.net/blocklists/ipv64_blocklist_blocklistde_all.txt"
+#     cron: "@every 1m"
+
+blocklist_files:
+  - path: "./config/blocklists/blocklist.txt"
+
+blocklist_remotes:
+  - url: "https://ipv64.net/blocklists/ipv64_blocklist_all.txt"
+    cron: "@every 1h"

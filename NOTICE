@@ -1,0 +1,93 @@
+IPGate - IP Blocking System
+Copyright (C) 2024 Your Name or Organization
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+DEPENDENCY NOTICES
+==================
+
+This program uses the following third-party libraries with their respective licenses:
+
+1. github.com/fsnotify/fsnotify v1.9.0
+   License: BSD-3-Clause
+   Source: https://github.com/fsnotify/fsnotify
+
+2. github.com/go-chi/chi/v5 v5.2.5
+   License: MIT
+   Source: https://github.com/go-chi/chi
+
+3. github.com/google/uuid v1.6.0
+   License: BSD-3-Clause
+   Source: https://github.com/google/uuid
+
+4. github.com/robfig/cron/v3 v3.0.1
+   License: MIT
+   Source: https://github.com/robfig/cron
+
+5. github.com/stretchr/testify v1.8.4
+   License: MIT
+   Source: https://github.com/stretchr/testify
+
+6. go.yaml.in/yaml/v3 v3.0.4
+   License: MIT + Apache 2.0 (dual-licensed)
+   Source: https://github.com/go-yaml/yaml
+
+7. golang.org/x/sys v0.41.0
+   License: BSD-3-Clause
+   Source: https://github.com/golang/sys
+
+8. github.com/knadh/koanf/v2 v2.3.3
+   License: MIT
+   Source: https://github.com/knadh/koanf
+
+9. github.com/knadh/koanf/parsers/yaml v1.1.0
+   License: MIT
+   Source: https://github.com/knadh/koanf
+
+10. github.com/knadh/koanf/providers/file v1.2.1
+    License: MIT
+    Source: https://github.com/knadh/koanf
+
+11. github.com/go-viper/mapstructure/v2 v2.5.0
+    License: MIT (indirect)
+    Source: https://github.com/go-viper/mapstructure
+
+12. github.com/mitchellh/copystructure v1.2.0
+    License: MIT (indirect)
+    Source: https://github.com/mitchellh/copystructure
+
+13. github.com/mitchellh/reflectwalk v1.0.2
+    License: MIT (indirect)
+    Source: https://github.com/mitchellh/reflectwalk
+
+
+IMPORTANT LEGAL NOTICE
+======================
+
+By using this software, you acknowledge that it is licensed under the GNU
+General Public License v3 (GPLv3), which is a copyleft license. This means:
+
+1. You are free to use, modify, and distribute this software
+2. Any modifications or derivative works must also be licensed under GPLv3
+3. You must provide source code when distributing the software
+4. You cannot use this software in proprietary (closed-source) projects
+
+The GPLv3 license is incompatible with MIT, BSD, and Apache 2.0 licenses.
+Using GPLv3 for this project may violate the terms of the dependencies listed
+above. You should consult with a legal professional before using GPLv3 for
+this project.
+
+For more information about the GPLv3 license, please visit:
+https://www.gnu.org/licenses/gpl-3.0.html

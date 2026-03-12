@@ -1,0 +1,40 @@
+port: "9092"
+error_page: "/app/templates/error.html"
+error_format: "json"
+status_allowed: 200
+status_denied: 403
+debug_endpoint: true
+watch_files_enabled: true
+
+headers:
+  client_ip_header: "X-Forwarded-For"
+  host_header: "X-Forwarded-Host"
+  uri_header: "X-Forwarded-Uri"
+  method_header: "X-Forwarded-Method"
+  proto_header: "X-Forwarded-Proto"
+
+cache:
+  enabled: false
+  ttl: 120
+  max_entries: 100000
+  prune_interval: 60
+  shard_count: 64
+  prune_on_get: false
+  write_buffer_size: 0
+  auto_clear_on_change: false
+
+blocklist_max_size: 10485760
+
+whitelist_files:
+  - path: "./config/whitelists/whitelist.txt"
+
+whitelist_remotes:
+  - url: "https://ipv64.net/whitelists/whitelist.txt"
+    cron: "0 * * * *"
+
+blocklist_files:
+  - path: "./config/blocklists/blocklist.txt"
+
+blocklist_remotes:
+  - url: "https://ipv64.net/blocklists/countries/ipv64_blocklist_AD.txt"
+    cron: "0 * * * *"

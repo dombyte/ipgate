@@ -1,0 +1,10 @@
+FROM alpine:latest as certs
+RUN apk --update add ca-certificates
+
+FROM scratch
+COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+WORKDIR /app
+ARG TARGETPLATFORM
+COPY $TARGETPLATFORM/ipgate /app
+COPY --from=ghcr.io/tarampampam/microcheck:1 /bin/httpcheck /bin/httpcheck
+ENTRYPOINT ["/app/ipgate"]

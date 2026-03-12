@@ -1,0 +1,308 @@
+version: 2
+
+project_name: IPGate
+before:
+  hooks:
+    - go mod tidy
+    - go fmt ./...
+
+builds:
+  - id: ipgate-amd64-v2
+    main: ./cmd/ipgate
+    binary: ipgate
+    goos:
+      - linux
+    goarch:
+      - amd64
+    goamd64:
+      - v2
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+  - id: ipgate-amd64-v3
+    main: ./cmd/ipgate
+    binary: ipgate
+    goos:
+      - linux
+    goarch:
+      - amd64
+    goamd64:
+      - v3
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+  # - id: ipgate-amd64-v4
+  #   main: ./cmd/ipgate
+  #   binary: ipgate
+  #   goos:
+  #     - linux
+  #   goarch:
+  #     - amd64
+  #   goamd64:
+  #     - v4
+  #   env:
+  #     - CGO_ENABLED=0
+  #   ldflags:
+  #     - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+  - id: ipgate-arm64-v8.0-linux
+    main: ./cmd/ipgate
+    binary: ipgate
+    goos:
+      - linux
+    goarch:
+      - arm64
+    goarm64:
+      - v8.0
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+  - id: ipgate-arm64-v8.0-darwin
+    main: ./cmd/ipgate
+    binary: ipgate
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    goarm64:
+      - v8.0
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+  # - id: ipgate-arm64-v9.0-linux
+  #   main: ./cmd/ipgate
+  #   binary: ipgate
+  #   goos:
+  #     - linux
+  #   goarch:
+  #     - arm64
+  #   goarm64:
+  #     - v9.0
+  #   env:
+  #     - CGO_ENABLED=0
+  #   ldflags:
+  #     - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+  # - id: ipgate-arm64-v9.0-darwin
+  #   main: ./cmd/ipgate
+  #   binary: ipgate
+  #   goos:
+  #     - darwin
+  #   goarch:
+  #     - arm64
+  #   goarm64:
+  #     - v9.0
+  #   env:
+  #     - CGO_ENABLED=0
+  #   ldflags:
+  #     - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+archives:
+  - id: ipgate-amd64-v2
+    ids:
+      - ipgate-amd64-v2
+    formats: tar.gz
+    name_template: "{{ .ProjectName }}-{{ .Version }}-linux-amd64v2"
+    files:
+      - README.md
+      - LICENSE
+      - NOTICE
+
+  - id: ipgate-amd64-v3
+    ids:
+      - ipgate-amd64-v3
+    formats: tar.gz
+    name_template: "{{ .ProjectName }}-{{ .Version }}-linux-amd64v3"
+    files:
+      - README.md
+      - LICENSE
+      - NOTICE
+
+  # - id: ipgate-amd64-v4
+  #   ids:
+  #     - ipgate-amd64-v4
+  #   formats: tar.gz
+  #   name_template: "{{ .ProjectName }}-{{ .Version }}-linux-amd64v4"
+  #   files:
+  #     - README.md
+  #     - LICENSE
+  #     - NOTICE
+
+  - id: ipgate-arm64-v8.0-linux
+    ids:
+      - ipgate-arm64-v8.0-linux
+    formats: tar.gz
+    name_template: "{{ .ProjectName }}-{{ .Version }}-linux-arm64v8.0"
+    files:
+      - README.md
+      - LICENSE
+      - NOTICE
+
+  - id: ipgate-arm64-v8.0-darwin
+    ids:
+      - ipgate-arm64-v8.0-darwin
+    formats: tar.gz
+    name_template: "{{ .ProjectName }}-{{ .Version }}-darwin-arm64v8.0"
+    files:
+      - README.md
+      - LICENSE
+      - NOTICE
+
+  # - id: ipgate-arm64-v9.0-linux
+  #   ids:
+  #     - ipgate-arm64-v9.0-linux
+  #   formats: tar.gz
+  #   name_template: "{{ .ProjectName }}-{{ .Version }}-linux-arm64v9.0"
+  #   files:
+  #     - README.md
+  #     - LICENSE
+  #     - NOTICE
+
+  # - id: ipgate-arm64-v9.0-darwin
+  #   ids:
+  #     - ipgate-arm64-v9.0-darwin
+  #   formats: tar.gz
+  #   name_template: "{{ .ProjectName }}-{{ .Version }}-darwin-arm64v9.0"
+  #   files:
+  #     - README.md
+  #     - LICENSE
+  #     - NOTICE
+
+# archives:
+#   - formats: tar.gz
+#     name_template: "{{ .ProjectName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Amd64 }}{{ .Amd64 }}{{ end }}{{ if .Arm64 }}{{ .Arm64 }}{{ end }}"
+#     files:
+#       - README.md
+#       - LICENSE
+#       - NOTICE
+#     allow_different_binary_count: true
+
+checksum:
+  name_template: "{{ .ProjectName }}-{{ .Version }}-checksums.txt"
+
+changelog:
+  sort: asc
+  use: github
+  format: |
+    {{ .Message -}}
+    {{- if .Logins }} by {{ .Logins | englishJoin }}{{- end -}}
+    {{- if .SHA }}
+      {{- $sha := split .SHA "" -}}
+      {{- if .Logins }} in {{ else }}in{{ end }}[#{{ index $sha 0 }}{{ index $sha 1 }}{{ index $sha 2 }}{{ index $sha 3 }}{{ index $sha 4 }}{{ index $sha 5 }}{{ index $sha 6 }}]({{ .GitURL }}/commit/{{ .SHA }})
+    {{- end }}
+  # groups:
+  #   - title: "Features"
+  #     regexp: "^.*feat[(\\w)]*:.*$"
+  #     order: 0
+  #   - title: "Bug Fixes"
+  #     regexp: "^.*fix[(\\w)]*:.*$"
+  #     order: 1
+  #   - title: "Documentation"
+  #     regexp: "^.*docs[(\\w)]*:.*$"
+  #     order: 2
+  #   - title: "Others"
+  #     order: 99
+  # Filter out commits that don't match any group
+  filters:
+    exclude:
+      - "^test:"
+      - "^chore:"
+      - "Merge branch"
+      - "Merge pull request"
+      - "^test:"
+      - "^rebase:"
+
+release:
+  name_template: "v{{.Version}}"
+  prerelease: auto
+  header: |
+    {{- if .Prerelease }}
+    > [!WARNING]
+    > **This is a pre-release version. Use with caution and report any issues you encounter.**
+    {{ else }}
+    {{.ProjectName}} v{{.Version}} is available!
+    {{- end }}
+
+  footer: |
+    {{- if and .PreviousTag .Tag -}}
+    **Full Changelog**: [{{ .PreviousTag }}...{{ .Tag }}]({{ .GitURL }}/compare/{{ .PreviousTag }}...{{ .Tag }})
+    {{- end -}}
+
+    {{if .Env.GITHUB_REPOSITORY}}
+    ## Docker Images
+      - `ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}`
+      {{if not .Prerelease}}
+      - `ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:latest`
+      {{- end -}}
+    {{- end -}}
+signs:
+  - id: sign-bin
+    cmd: cosign
+    stdin: "{{ .Env.COSIGN_PWD }}"
+    args:
+      [
+        "sign-blob",
+        "--key=env://COSIGN_KEY",
+        "--output-signature=${signature}",
+        "--bundle=${signature}",
+        "--yes",
+        "${artifact}",
+      ]
+    artifacts: all
+    ids:
+      - ipgate-amd64-v2
+      - ipgate-amd64-v3
+      # - ipgate-amd64-v4
+      - ipgate-arm64-v8.0-linux
+      - ipgate-arm64-v8.0-darwin
+      # - ipgate-arm64-v9.0-linux
+      # - ipgate-arm64-v9.0-darwin
+    signature: "${artifact}.sigstore.json"
+    output: true
+
+dockers_v2:
+  - id: multi-arch
+    ids:
+      - ipgate-amd64-v3
+      - ipgate-arm64-v8.0-linux
+    images:
+      - "ghcr.io/{{ .Env.GITHUB_REPOSITORY }}"
+    tags:
+      - "v{{ .Version }}"
+      - "{{ if not .Prerelease }}latest{{ end }}"
+    platforms:
+      - "linux/amd64"
+      - "linux/arm64"
+    dockerfile: Dockerfile.goreleaser
+    labels:
+      "org.opencontainers.image.description": "IPgate Multi-Architecture AMD64_v3 and ARM64_v8"
+      "org.opencontainers.image.created": "{{.Date}}"
+      "org.opencontainers.image.name": "{{.ProjectName}}"
+      "org.opencontainers.image.revision": "{{.FullCommit}}"
+      "org.opencontainers.image.version": "{{.Version}}"
+      "org.opencontainers.image.source": "{{.GitURL}}"
+    annotations:
+      "org.opencontainers.image.description": "IPgate Multi-Architecture AMD64_v3 and ARM64_v8"
+
+docker_signs:
+  - id: sign-docker
+    cmd: cosign
+    artifacts: all
+    args:
+      - "sign"
+      - "--key=env://COSIGN_KEY"
+      - "${artifact}"
+      - "--yes"
+    stdin: "{{ .Env.COSIGN_PWD }}"
+    ids:
+      - multi-arch
+      # - amd64-v4
+    output: true

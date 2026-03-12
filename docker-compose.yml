@@ -1,0 +1,18 @@
+---
+services:
+  ipgate:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config:/app/config # Mounted for live configuration changes
+    command:
+      - "--log.level=DEBUG"
+      - "--config=/app/config/config.yaml"
+
+    #    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "httpcheck", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

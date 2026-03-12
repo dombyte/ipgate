@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  ipgate-debug:
+    build: .
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./config:/app/config
+      - ./templates:/app/templates
+      - ./blocklists:/blocklists
+    environment:
+      - CONFIG_FILE=/app/config/config.yaml
+      - LOG_LEVEL=DEBUG
+
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
