@@ -25,46 +25,46 @@ func createTestDeps() *models.HandlerDeps {
 
 func TestBouncerHandler(t *testing.T) {
 	deps := createTestDeps()
-	
+
 	// Create a test IPMatcher
 	matcher := ipmatcher.NewIPMatcher()
 	deps.Config.IPMatcher = matcher
-	
+
 	// Load blocklist
 	if err := matcher.LoadBlocklist([]string{"198.51.100.1"}); err != nil {
 		t.Fatalf("Failed to load blocklist: %v", err)
 	}
-	
+
 	// Set up headers
 	deps.Config.Headers = map[string]string{
 		"client_ip_header": "X-Forwarded-For",
-		"host_header":     "Host",
-		"uri_header":      "Request-URI",
-		"method_header":   "Method",
-		"proto_header":    "Proto",
+		"host_header":      "Host",
+		"uri_header":       "Request-URI",
+		"method_header":    "Method",
+		"proto_header":     "Proto",
 	}
 	deps.Config.ErrorFormat = "json"
 	deps.Config.StatusDenied = http.StatusForbidden
 	deps.Config.StatusAllowed = http.StatusOK
-	
+
 	handler := BouncerHandler(deps)
-	
+
 	// Test blocked IP
 	req := httptest.NewRequest("GET", "/bouncer/test", nil)
 	req.Header.Set("X-Forwarded-For", "198.51.100.1")
 	w := httptest.NewRecorder()
 	handler.ServeHTTP(w, req)
-	
+
 	if w.Code != http.StatusForbidden {
 		t.Errorf("Expected status 403 for blocked IP, got %d", w.Code)
 	}
-	
+
 	// Test allowed IP
 	req2 := httptest.NewRequest("GET", "/bouncer/test", nil)
 	req2.Header.Set("X-Forwarded-For", "192.168.1.1")
 	w2 := httptest.NewRecorder()
 	handler.ServeHTTP(w2, req2)
-	
+
 	if w2.Code != http.StatusOK {
 		t.Errorf("Expected status 200 for allowed IP, got %d", w2.Code)
 	}
@@ -75,13 +75,13 @@ func TestBouncerHandler_NoClientIP(t *testing.T) {
 	deps.Config.Headers = map[string]string{
 		"client_ip_header": "X-Forwarded-For",
 	}
-	
+
 	handler := BouncerHandler(deps)
-	
+
 	req := httptest.NewRequest("GET", "/bouncer/test", nil)
 	w := httptest.NewRecorder()
 	handler.ServeHTTP(w, req)
-	
+
 	if w.Code != http.StatusBadRequest {
 		t.Errorf("Expected status 400 for missing client IP, got %d", w.Code)
 	}
@@ -94,14 +94,14 @@ func TestBouncerHandler_InvalidIP(t *testing.T) {
 	}
 	matcher := ipmatcher.NewIPMatcher()
 	deps.Config.IPMatcher = matcher
-	
+
 	handler := BouncerHandler(deps)
-	
+
 	req := httptest.NewRequest("GET", "/bouncer/test", nil)
 	req.Header.Set("X-Forwarded-For", "invalid-ip")
 	w := httptest.NewRecorder()
 	handler.ServeHTTP(w, req)
-	
+
 	if w.Code != http.StatusBadRequest {
 		t.Errorf("Expected status 400 for invalid IP, got %d", w.Code)
 	}
@@ -120,29 +120,29 @@ func TestBouncerHandler_WithCache(t *testing.T) {
 	deps.Config.ErrorFormat = "json"
 	deps.Config.StatusDenied = http.StatusForbidden
 	deps.Config.StatusAllowed = http.StatusOK
-	
+
 	// Pre-populate cache with DENY
 	deps.Cache.Add("198.51.100.1", "DENY")
-	
+
 	handler := BouncerHandler(deps)
-	
+
 	req := httptest.NewRequest("GET", "/bouncer/test", nil)
 	req.Header.Set("X-Forwarded-For", "198.51.100.1")
 	w := httptest.NewRecorder()
 	handler.ServeHTTP(w, req)
-	
+
 	if w.Code != http.StatusForbidden {
 		t.Errorf("Expected status 403 for cached DENY, got %d", w.Code)
 	}
-	
+
 	// Test cached ALLOW
 	deps.Cache.Add("192.168.1.1", "ALLOW")
-	
+
 	req2 := httptest.NewRequest("GET", "/bouncer/test", nil)
 	req2.Header.Set("X-Forwarded-For", "192.168.1.1")
 	w2 := httptest.NewRecorder()
 	handler.ServeHTTP(w2, req2)
-	
+
 	if w2.Code != http.StatusOK {
 		t.Errorf("Expected status 200 for cached ALLOW, got %d", w2.Code)
 	}

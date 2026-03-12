@@ -125,8 +125,8 @@ func (c *Cache) getCacheKey(ip string) string {
 // }
 
 func (c *Cache) getShard(key string) *shard {
-    shardIndex := xxhash.Sum64([]byte(key)) % uint64(c.numShards) // #nosec G115 needs to be addressed todo
-    return &c.shards[shardIndex]
+	shardIndex := xxhash.Sum64([]byte(key)) % uint64(c.numShards) // #nosec G115 needs to be addressed todo
+	return &c.shards[shardIndex]
 }
 
 // GetStatus returns the cache status for an IP.

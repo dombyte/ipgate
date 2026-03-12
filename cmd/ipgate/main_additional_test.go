@@ -1361,9 +1361,9 @@ func TestSetupFileWatchers(t *testing.T) {
 // TestExtractFilePaths tests the extractFilePaths function
 func TestExtractFilePaths(t *testing.T) {
 	tests := []struct {
-		name     string
-		files    interface{}
-		want     []string
+		name  string
+		files interface{}
+		want  []string
 	}{
 		{"whitelist files", []config.WhitelistFile{
 			{Path: "file1.txt"},
@@ -1534,7 +1534,7 @@ func TestStartServer(t *testing.T) {
 		Cache:  cacheInstance,
 		Logger: logger,
 	}
-	
+
 	// Verify handler dependencies are created correctly
 	if handlerDeps.Config == nil {
 		t.Error("Expected config in handler dependencies")
@@ -1545,7 +1545,7 @@ func TestStartServer(t *testing.T) {
 	if handlerDeps.Logger == nil {
 		t.Error("Expected logger in handler dependencies")
 	}
-	
+
 	t.Log("Handler dependencies created successfully")
 }
 

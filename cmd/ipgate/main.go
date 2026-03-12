@@ -417,6 +417,7 @@ func loadIPMatcher(cfg *config.Config) *ipmatcher.IPMatcher {
 
 	return matcher
 }
+
 // old listenAndServe func gets flaged with gosec G114
 // func listenAndServe(port string, handler http.Handler) error {
 // 	return http.ListenAndServe(":"+port, handler)
@@ -434,7 +435,6 @@ func listenAndServe(port string, handler http.Handler) error {
 	}
 	return srv.ListenAndServe()
 }
-
 
 // startCronScheduler creates and starts a cron scheduler for automatic updates
 // of remote blocklists and whitelists based on the cron expressions in the configuration.
