@@ -250,7 +250,7 @@ signs:
     args:
       [
         "sign-blob",
-        "--key=env://COSIGN_KEY",
+        "--key=env://COSIGN_PRIVATE_KEY",
         "--output-signature=${signature}",
         "--bundle=${signature}",
         "--yes",
@@ -298,7 +298,7 @@ docker_signs:
     artifacts: all
     args:
       - "sign"
-      - "--key=env://COSIGN_KEY"
+      - "--key=env://COSIGN_PRIVATE_KEY"
       - "${artifact}"
       - "--yes"
     stdin: "{{ .Env.COSIGN_PWD }}"
