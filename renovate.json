@@ -1,6 +1,19 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "enabledManagers": ["gomod", "dockerfile", "docker-compose", "github-actions"],
+  "enabledManagers": [
+    "gomod",
+    "dockerfile",
+    "docker-compose",
+    "github-actions"
+  ],
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":enableVulnerabilityAlertsWithLabel('security')",
+    ":preserveSemverRanges",
+    ":rebaseStalePrs",
+    "group:recommended"
+  ],
   "labels": ["renovate"],
   "ignoreUnstable": true,
   "packageRules": [
@@ -30,8 +43,6 @@
     "enabled": true,
     "labels": ["security"]
   },
-  "prConcurrentLimit": 5,
-  "prHourlyLimit": 2,
-  "timezone": "Etc/UTC",
-  "schedule": ["after 10pm every weekday", "before 5am every weekday", "every weekend"]
+  "separateMinorPatch": true,
+  "stopUpdatingLabel": "renovate/stop_updating"
 }
