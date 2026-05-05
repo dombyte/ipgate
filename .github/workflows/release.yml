@@ -31,10 +31,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Write Cosign Key
-        run: |
-          mkdir -p ~/.cosign
-          echo "${{ secrets.COSIGN_KEY }}" > ~/.cosign/cosign.key
 
       - uses: goreleaser/goreleaser-action@v7
         with:
@@ -43,5 +39,5 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COSIGN_PWD: ${{ secrets.COSIGN_PWD }}
-          COSIGN_KEY: ~/.cosign/cosign.key
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PWD }}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_KEY }}
