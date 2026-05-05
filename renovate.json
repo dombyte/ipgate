@@ -1,99 +1,37 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":dependencyDashboard",
-    ":enableVulnerabilityAlertsWithLabel('security')",
-    ":preserveSemverRanges",
-    ":rebaseStalePrs",
-    "helpers:disableTypesNodeMajor",
-    "group:monorepo",
-    "group:allMinorPatch"
-  ],
-  "labels": ["renovate"],
   "enabledManagers": ["gomod", "dockerfile", "docker-compose", "github-actions"],
+  "labels": ["renovate"],
   "ignoreUnstable": true,
-  "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": ["before 5am on monday"],
-    "timezone": "Etc/UTC"
-  },
-  "docker": {
-    "fileMatch": [
-      "Dockerfile",
-      "Dockerfile\\.goreleaser",
-      "docker-compose\\.yml",
-      "docker-compose\\.debug\\.yml"
-    ]
-  },
   "packageRules": [
     {
-      "description": "Group all Go module dependencies together",
       "matchManagers": ["gomod"],
-      "groupName": "Go dependencies",
-      "groupSlug": "go-deps"
+      "groupName": "Go dependencies"
     },
     {
-      "description": "Enable vulnerability alerts for Go dependencies",
-      "matchManagers": ["gomod"],
-      "matchUpdateTypes": ["major", "minor", "patch"],
-      "labels": ["security"]
-    },
-    {
-      "description": "Update Go standard library hints",
-      "matchManagers": ["gomod"],
-      "matchPackagePatterns": ["^golang.org/x/"],
-      "matchUpdateTypes": ["minor", "patch"]
-    },
-    {
-      "description": "Update Go module indirect dependencies",
       "matchManagers": ["gomod"],
       "matchDepTypes": ["indirect"],
       "enabled": true
     },
     {
-      "description": "Group Docker base images together",
       "matchManagers": ["dockerfile"],
-      "groupName": "Docker base images",
-      "groupSlug": "docker-base"
+      "groupName": "Docker images"
     },
     {
-      "description": "Group external Docker images (like microcheck) together",
-      "matchManagers": ["dockerfile"],
-      "matchPackageNames": ["ghcr.io/tarampampam/microcheck"],
-      "groupName": "External Docker containers",
-      "groupSlug": "docker-external"
+      "matchManagers": ["docker-compose"],
+      "groupName": "Docker Compose"
     },
     {
-      "description": "Group GitHub Actions together",
       "matchManagers": ["github-actions"],
-      "groupName": "GitHub Actions",
-      "groupSlug": "github-actions"
-    },
-    {
-      "description": "Update alpine base image (security patches)",
-      "matchManagers": ["dockerfile"],
-      "matchPackageNames": ["alpine"],
-      "matchUpdateTypes": ["major", "minor", "patch"]
-    },
-    {
-      "description": "Update golang base image",
-      "matchManagers": ["dockerfile"],
-      "matchPackageNames": ["golang"],
-      "matchUpdateTypes": ["major", "minor", "patch"]
+      "groupName": "GitHub Actions"
     }
   ],
-  "prConcurrentLimit": 5,
-  "prHourlyLimit": 2,
-  "rebaseWhen": "behind-base-branch",
-  "schedule": ["after 10pm every weekday", "before 5am every weekday", "every weekend"],
-  "timezone": "Etc/UTC",
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": ["security"],
-    "addLabels": ["vulnerability"],
-    "assignees": []
+    "labels": ["security"]
   },
-  "separateMinorPatch": true,
-  "stopUpdatingLabel": "renovate/stop_updating"
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "timezone": "Etc/UTC",
+  "schedule": ["after 10pm every weekday", "before 5am every weekday", "every weekend"]
 }
