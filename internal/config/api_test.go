@@ -69,6 +69,7 @@ cache:
 			name: "No cache section - should apply defaults",
 			content: `port: "9090"
 cache:
+  enabled: true
   ttl: 300
   auto_clear_on_change: true`,
 			expectCacheEnabled:      true,  // default
