@@ -14,7 +14,7 @@ headers:
   proto_header: "X-Forwarded-Proto"
 
 cache:
-  enabled: false
+  enabled: true
   ttl: 120
   max_entries: 100000
   prune_interval: 60
